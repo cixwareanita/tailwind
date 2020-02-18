@@ -1,0 +1,14 @@
+.table{
+    display: table;
+
+    width: 500px;
+}
+
+.throw{
+    display: table-row ;
+}
+.tcell{
+    display: table-cell;
+    border-bottom: 2px solid rgb(214, 210, 210);
+    padding: 8px;
+}

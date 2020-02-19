@@ -1,3 +1,28 @@
+@media screen and (max-width: 700px) {
+    .menu-bar{
+        display: none;
+        margin: 0px;
+        padding: 0px;
+    }
+    .mid-content{
+        margin: 0;
+        padding: 0;
+    }
+    .left-bar{
+        display: none;
+        margin: 0;
+        padding: 0;
+    }
+    .one1{
+        display: flex;
+        flex-direction: column;
+    }
+    .tables{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
 .table{
     display: table;
 

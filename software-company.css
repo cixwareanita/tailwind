@@ -1,0 +1,38 @@
+.main{
+    background-image: url(https://picsum.photos/1500/700);
+    background-repeat: no-repeat;
+    font-family: 'Montserrat', sans-serif;
+    background-position: center;
+
+}
+.back-color{
+    background-color: rgba(57, 224, 127, 0.78);
+}
+@media (max-width: 740px){
+    .hero-image{
+         display: none;
+    }
+
+
+}
+@media (min-width: 640px){
+    a{
+        margin-top: -10px;
+    }
+    .hero-image{
+        background-color:rgb(57, 224, 127);
+    }
+}
+.search{
+    color: #2ED573;
+}
+header{
+    color: #2ED573;
+}
+.team{
+    background-color: rgba(57, 224, 127, 0.3);
+
+}
+footer{
+    background-color: #2ED573;
+}

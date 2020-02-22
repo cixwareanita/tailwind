@@ -1,0 +1,723 @@
+(function () {
+  var scheme = (("https:" == document.location.protocol) ? "https" : "http");
+  var adnxs_domain = 'secure.adnxs.com';
+  var aol_domain = 'secure.leadback.advertising.com';
+  var rule = ["*", "*"];
+  if (scheme=='http') { adnxs_domain = 'ib.adnxs.com'; aol_domain = 'leadback.advertising.com';}
+  var el = document.createElement("div");
+  el.style["width"] = "1px";
+  el.style["height"] = "1px";
+  el.style["display"] = "inline";
+  el.style["position"] = "absolute";
+  var cm_urls = ["/cm/r/out?advertisable=PUJVW3WAKNAERA4SEEJW57","/cm/b/out?advertisable=PUJVW3WAKNAERA4SEEJW57","/cm/x/out?advertisable=PUJVW3WAKNAERA4SEEJW57","/cm/l/out?advertisable=PUJVW3WAKNAERA4SEEJW57","/cm/o/out?advertisable=PUJVW3WAKNAERA4SEEJW57","/cm/g/out?advertisable=PUJVW3WAKNAERA4SEEJW57&google_nid=adroll"];
+  var img_tag = '<img height="1" width="1" style="border-style:none;" alt="" src="{}"/>\n';
+  var content = '';
+  for(var i = 0; i < cm_urls.length; i++) {
+    content += img_tag.replace("{}", __adroll._srv(cm_urls[i]));
+  }
+
+
+
+  if (__adroll.consent_allowed(__adroll.consent_networks.facebook)) {
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+      document,'script','//connect.facebook.net/en_US/fbevents.js');
+  }
+
+  try {
+      try {
+          
+(function () {
+    var queue = [];
+    var start = new Date().getTime();
+    var lastMouseSnap = 0;
+    var mousemoveDelay = 100;
+    var mousePath = "";
+    var mlength = 255;
+
+    var focused = document.hasFocus();
+    var focusTimeOnPage = 0;
+    var outfocusTimeOnPage = 0;
+
+    var focusedFlushInterval = 10000;
+    var unfocusedFlushInterval = 60000;
+    var flushInterval = focused === true ? focusedFlushInterval : unfocusedFlushInterval;
+    var flushTimeout;
+
+    var scrollTimeout;
+    var ieVers = 0, maxUrl = 3900;
+    var ve = navigator.appVersion;
+    if (ve) {
+        (ve.indexOf("MSIE 6.") > -1 ? 
+            (ieVers = 6, maxUrl = 1700) : 
+            ve.indexOf("MSIE 7.") > -1 ? 
+                (ieVers = 7, maxUrl = 1900) : 
+                ve.indexOf("MSIE 8.") > -1 && (ieVer = 8));
+    }
+    var adservers = "https://d.adroll.com";
+    var onp_path = "/onp/" + adroll_adv_id + "/" + adroll_pix_id;
+
+    function trunc(s, at) {
+        return isString(s) ? s.slice(0, at) : s
+    }
+
+    function isObject(o) {
+        return o && "object" == typeof o || false
+    }
+
+    function isString(s) {
+        return "string" == typeof s || isObject(s) && Object.prototype.toString(s) == "[object String]" || false
+    }
+
+
+    function getTarget(evt) {
+        return evt.target || evt.srcElement;
+    }
+    function getClassName(t) {
+        var e = function(t) {
+            return 1 === t.nodeType && "http://www.w3.org/2000/svg" === t.namespaceURI
+        };
+        if (void 0 === t) return void 0
+        return (e(t) ? t.className ? t.className.baseVal : t.getAttribute("class") : t.className) || ""
+    }
+    function getAttr(t, e) {
+        return "form" === t.tagName.toLowerCase() ? t.getAttribute(e) || "" : t[e]
+    }
+    function getPath(t) {
+        var e, r, o, u;
+        for (r = ""; t && t.tagName && "BODY" !== t.tagName && "HTML" !== t.tagName && (e = "@" + t.tagName.toLowerCase() + ";", u = getAttr(t, "id"), u && (e += "#" + u.replace(/\s/g, "") + ";"), o = getClassName(t), o && (e += "." + o.split(/\s+/).sort().join(";.") + ";"), e += "|", !(r.length + e.length > 1024));) r = e + r, t = t.parentElement;
+        return r
+    }
+
+    function cleanAndTrim(t) {
+        if (t == undefined) return t;
+        return t = t.toString(), t.length > 255 && (t = t.slice(0, 255).split(" ").slice(0, -1).join(" ")), t.replace(/[\(\)\!\@\#\$\%\^\&\*]/g, "")
+    }
+
+
+    function queueEvent(evt) {
+        var evt = evt || window.event,
+            target = getTarget(evt),
+            evtName = trunc("mouseup" === evt.type ? "click" : evt.type, 255),
+            className = getClassName(target),
+            // This is cool but invasive
+            // tagValue = trunc(content(target).replace(/^\s+|\s+$/g, ""), 64),
+            tagPath = evt.type === "scroll" ? "" : getPath(target);
+
+        var ev = {}
+
+        if (target != undefined && (evtName == "click" || evtName == "change" || evtName == "submit")) {
+            ev['i'] = trunc(getAttr(target, "id"), 255);
+            ev['c'] = cleanAndTrim(className);
+            ev['n'] = trunc(target.tagName.toLowerCase(), 255);
+        }
+        switch (evtName) {
+            case "click":
+                ev['t'] = 'cli';
+                ev['p'] = tagPath;
+                ev['h'] = trunc(findAHRef(target), 1024);
+                break;
+            case "change":
+                ev['t'] = 'cha';
+                ev['p'] = tagPath;
+                break;
+            case "scroll":
+                ev['t'] = 'scr';
+                ev['x'] = evt.x;
+                ev['y'] = evt.y;
+                break;
+            case "mousemove":
+                if (queue.length && queue[queue.length-1].t == 'mmv') {
+                    ev = undefined;
+                    queue[queue.length-1].m += "x"+Math.floor(evt.clientX/5).toString(16)+"y"+Math.floor(evt.clientY/5).toString(16)+".";
+                }
+                else {
+                    ev['t'] = 'mmv';
+                    ev['m'] = "x"+Math.floor(evt.clientX/5).toString(16)+"y"+Math.floor(evt.clientY/5).toString(16)+".";
+                }
+                break;
+            case "submit":
+                ev['t'] = 'sub';
+                ev['p'] = tagPath;
+                break;
+            case "top":
+                ev['t'] = 'top';
+                ev['f'] = evt.time;
+                break;
+            case "focus": case "focusin": case "pageshow":
+                ev['t'] = 'foc'
+                break;
+            case "blur": case "focusout": case "pagehide":
+                ev['t'] = 'blu'
+                break;
+            case "error":
+                ev['t'] = 'err'
+                break;
+            default:
+                return;
+        }
+        if (ev != undefined) {
+            var toQueue = "ev=" + encodeURIComponent(objToString(ev));
+            if ((queue.join("&").length + toQueue.length) > maxUrl) {
+                flush();
+            }
+            queue.push(toQueue);
+            if (evtName == 'click') {
+                flush();
+            }
+        }
+    }
+
+    function clearQueue() {
+        queue = [];
+    }
+
+    function onClick(evt) {
+        var target, btn;
+        if (evt = evt || window.event,
+            button = evt.which || evt.button,
+            target = getTarget(evt),
+            (!ieVers || target === evt.currentTarget) && target && target.tagName) {
+            if ("click" === evt.type) {
+                queueEvent(evt)
+            }
+        }
+    }
+
+    function onSubmit(evt) {
+        evt = evt || window.event,
+        queueEvent(evt)
+    }
+
+    function findAHRef(t) {
+        for (var e = null; t && "BODY" !== t.tagName && "HTML" !== t.tagName;) {
+            if (e = t.getAttribute("href")) return e;
+            t = t.parentElement
+        }
+        return e
+    }
+
+    function onScroll(evt) {
+        if (scrollTimeout) {
+            clearTimeout(scrollTimeout);
+        }
+        scrollTimeout = setTimeout(saveScrollPos, 500)
+    }
+
+    function saveScrollPos() {
+        queueEvent({"type": "scroll", "x": window.pageXOffset, "y": window.pageYOffset});
+    }
+
+    function onMousemove(evt) {
+        evt = evt || window.event;
+        var now = new Date().getTime();
+        if (now - lastMouseSnap > mousemoveDelay) {
+            queueEvent(evt);
+            lastMouseSnap = now;
+        }
+    }
+
+    function onFocusIn(evt) {
+        if (getTarget(evt) != window) { return; }
+        focused = true;
+        start = new Date().getTime();
+        queueEvent(evt);
+        flushInterval = focusedFlushInterval;
+        clearTimeout(flushTimeout);
+        flush();
+    }
+
+    function onFocusOut(evt) {
+        if (getTarget(evt) != window) { return; }
+        queueEvent(evt);
+        focused = false;
+        flush();
+        // Take this out and it will continue to sync even out of focus, but that's not useful.
+        clearTimeout(flushTimeout);
+        flushInterval = unfocusedFlushInterval;
+    }
+
+    function listen(tag, evt, handler, args) {
+        document.addEventListener ? tag.addEventListener(evt, handler, args) : document.attachEvent ? tag.attachEvent("on" + evt, function() {
+            var e = window.event;
+            e.currentTarget = tag;
+            e.target = e.srcElement;
+            handler.call(tag, e)
+        }) : tag["on" + evt] = handler
+    }
+
+    function unlisten(tag, evt, handler, args) {
+        return tag.removeEventListener ? (tag.removeEventListener(evt, handler, args), !0) : t.detachEvent ? t.detachEvent("on" + evt, handler) : void(tag["on" + evt] == handler && delete tag["on" + evt])
+    }
+
+    function listenAll() {
+
+        function wrapException(func) {
+            return function wrapper(evt) {
+                try {
+                    return func(evt);
+                } catch(e) {}
+            }
+        }
+        try {
+            document.addEventListener("change", wrapException(queueEvent), true);
+            document.addEventListener("click", wrapException(onClick), true);
+            document.addEventListener("submit", wrapException(onSubmit), true);
+            document.addEventListener("scroll", wrapException(onScroll), true);
+            document.addEventListener("mousemove", wrapException(onMousemove), true);
+            window.addEventListener("beforeunload", wrapException(flush), true);
+            window.addEventListener("focus", wrapException(onFocusIn), true);
+            window.addEventListener("blur", wrapException(onFocusOut), true);
+        } catch(e) {}
+
+
+        var oldonerror = window.onerror;
+        window.onerror = function() {
+            queueEvent({"type": "error",
+                        "msg": arguments[0], 
+                        "url": arguments[1],
+                        "lineno": arguments[2],
+                        "colno": arguments[3],
+                        "error": arguments[4]});
+            if (oldonerror) oldonerror.apply(this, arguments);
+            return false;
+        };
+
+    };
+
+    function objToString(obj, i) {
+        var str = "";
+        for (var key in obj) {
+            if (!obj.hasOwnProperty(key)) continue
+            if (!obj[key]) continue
+            if (str != "") {
+                str += "&";
+            }
+            str += key + "=" + encodeURIComponent(obj[key]);
+        }
+        return str;
+    }
+
+
+    function flush() {
+        try {
+            if (focused) {
+                var now = new Date().getTime();
+                focusTimeOnPage = focusTimeOnPage + parseInt((now - start)/1000);
+                start = now;
+                queue.splice(0, 0, "ev=" + encodeURIComponent("t=top&f="+focusTimeOnPage));
+            }
+            send(queue);
+            clearQueue();
+            clearTimeout(flushTimeout);
+            flushTimeout = setTimeout(flush, flushInterval);
+        } catch(e) {}
+    }
+
+    function send(paramsList) {
+        var toSend = paramsList.join("&");
+        if (toSend.length>0) {
+            var fullPath = adservers + onp_path + "?" + "pv=" + __adroll.pv + "&" + paramsList.join("&");
+            var img = new window.Image();
+            img.src = fullPath;
+        }
+    }
+
+
+    listenAll();
+    flush();
+
+})();
+
+      } catch(e) {}
+      try {
+          
+(function() {
+var rtb = document.createElement("div");
+rtb.style["width"] = "1px";
+rtb.style["height"] = "1px";
+rtb.style["display"] = "inline";
+rtb.style["position"] = "absolute";
+rtb.innerHTML = ["/cm/aol/out?advertisable=PUJVW3WAKNAERA4SEEJW57","/cm/index/out?advertisable=PUJVW3WAKNAERA4SEEJW57","/cm/n/out?advertisable=PUJVW3WAKNAERA4SEEJW57","/cm/outbrain/out?advertisable=PUJVW3WAKNAERA4SEEJW57","/cm/pubmatic/out?advertisable=PUJVW3WAKNAERA4SEEJW57","/cm/r/out?advertisable=PUJVW3WAKNAERA4SEEJW57","/cm/taboola/out?advertisable=PUJVW3WAKNAERA4SEEJW57","/cm/triplelift/out?advertisable=PUJVW3WAKNAERA4SEEJW57"].reduce(function (acc, cmURL) {
+    return acc + '<img height="1" width="1" style="border-style:none;" alt="" src="' + __adroll._srv(cmURL) + '"/>';
+}, '');
+__adroll._head().appendChild(rtb);
+})();
+
+      } catch(e) {}
+      try {
+          
+(function(){
+    var scr = document.createElement("script");
+    scr.type = "text/javascript";
+    scr.src = "//s.adroll.com/j/sendrolling.js";
+    ((document.getElementsByTagName("head") || [null])[0] || document.getElementsByTagName("script")[0].parentNode).appendChild(scr);
+}());
+
+      } catch(e) {}
+      try {
+          if (typeof window.adroll_version !== "undefined" && window.adroll_version == "2.0") {
+
+
+    function setUpAjaxListenerAddToCartEvent() {
+        var trackingDone = false;
+
+        function isAddToCartUrl(url, formData) {
+            // Sometimes the url for adding to cart is different depending on the plugin being used.
+            // Depending on the ajax request we're checking, formData can either be a String or a FormData instance
+            return url.indexOf('controller=cart') !== -1 ||
+                   url.indexOf('ps_shoppingcart\/ajax') !== -1 ||
+                   (formData && formData.indexOf && formData.indexOf('controller=cart') !== -1) ||
+                   (window.FormData && formData instanceof window.FormData && formData.get && formData.has && formData.has('controller') && formData.get('controller') == 'cart');
+        }
+
+        function trackAddToCart(productId, qty) {
+            if (trackingDone) {
+                return;
+            }
+            var payload = {"products":[{"product_id": productId,
+                                        "quantity": qty}]};
+            if (typeof window.adroll_product_group !== "undefined") {
+                payload.products[0].product_group = window.adroll_product_group;
+            }
+
+            console.log('AdRoll track event: addToCart', payload);
+            adroll.track('addToCart', payload);
+
+            payload = addSegmentNameToPayload(payload, 'prestashop_added_product_to_cart');
+            console.log('AdRoll track event: pageView', payload);
+            adroll.track("pageView", payload);
+            trackingDone = true;
+        }
+
+        if (typeof XMLHttpRequest.prototype.adrollOpen === 'undefined') {
+            // We also need to listen on Ajax request for adding to cart
+            XMLHttpRequest.prototype.adrollOpen = XMLHttpRequest.prototype.open;
+            XMLHttpRequest.prototype.open = function(method, url, async, user, pass) {
+
+                this._url = url;
+                this.adrollOpen(method, url, async, user, pass);
+            }
+            XMLHttpRequest.prototype.adrollSend = XMLHttpRequest.prototype.send;
+            XMLHttpRequest.prototype.send = function(value) {
+                // we are only tracking the "Add to cart" event if the url of the ajax is
+                // some known add-to-cart url and we have some data being passed.
+                try {
+                    if (this._url && isAddToCartUrl(this._url, value) && value) {
+                        var cartProductId = /id_product=([0-9]*)/.exec(value)[1];
+                        var cartQty = 1;
+                        if (value.indexOf('qty=') !== -1) {
+                            cartQty = /qty=([0-9]*)/.exec(value)[1];
+                        }
+                        trackAddToCart(cartProductId, cartQty);
+                    }
+                } catch(exc) {console.error(exc);}
+                this.adrollSend(value);
+            }
+        }
+    }
+
+
+    function setAdrollProperties() {
+        var payload = {};
+        if (typeof window.adroll_currency !== "undefined") {
+            payload.currency = window.adroll_currency;
+        }
+        if (typeof window.adroll_language_code !== "undefined") {
+            payload.language = window.adroll_language_code;
+        }
+        console.log('AdRoll setProperties', payload);
+        adroll.setProperties(payload);
+    }
+
+
+    function identifyUser() {
+        if (typeof window.adroll_email !== "undefined" || typeof window.adroll_user_id !== "undefined") {
+            var payload = {};
+            if (typeof window.adroll_email !== "undefined") {
+                payload.email = window.adroll_email;
+            }
+            if (typeof window.adroll_user_id !== "undefined") {
+                payload.userId = window.adroll_user_id;
+            }
+            console.log('AdRoll identify event', payload);
+            adroll.identify(payload);
+        }
+    }
+
+    function addSegmentNameToPayload(payload, segment_name) {
+        var new_payload = JSON.parse(JSON.stringify(payload));
+        new_payload.segment_name = segment_name;
+        return new_payload;
+    }
+
+    function getCurrentPage() {
+        if(typeof window.adroll_current_page !== "undefined") {
+            return window.adroll_current_page;
+        }
+        return null;
+    }
+
+    function getProductPagePayload() {
+        var payload = {};
+        if (typeof window.adroll_product !== "undefined") {
+            payload.products = [window.adroll_product];
+        }
+        return payload;
+    }
+
+    function getCartPagePayload() {
+        var payload = {};
+        if (typeof window.adroll_cart_products !== "undefined") {
+            payload.products = window.adroll_cart_products;
+        }
+        return payload;
+    }
+
+    function getConversionPagePayload() {
+        var payload = {};
+        if (typeof window.adroll_conversion_value !== "undefined") {
+            payload.conversion_value = window.adroll_conversion_value;
+        }
+        if (typeof window.adroll_order_id !== "undefined") {
+            payload.order_id = window.adroll_order_id;
+        }
+        if (typeof window.adroll_order_currency !== "undefined") {
+            payload.currency = window.adroll_order_currency;
+        }
+        if (typeof window.adroll_checkout_products !== "undefined") {
+            payload.products = window.adroll_checkout_products;
+        }
+
+        return payload;
+    }
+
+    function getCheckoutPagePayload() {
+        var payload = {};
+        if (typeof window.adroll_cart_products !== "undefined") {
+            payload.products = window.adroll_cart_products;
+        }
+
+        return payload;
+    }
+
+    function getSearchPagePayload() {
+        var payload = {};
+        if (typeof window.adroll_search_string !== "undefined") {
+            payload.keywords = window.adroll_search_string;
+        }
+        return payload;
+    }
+
+    identifyUser();
+    setAdrollProperties();
+    // Check the current page, build the appropriate payload and fire the pixel.
+    switch(getCurrentPage()){
+        case 'home_page':
+            var payload = {};
+            console.log('AdRoll track event: pageView');
+            adroll.track('pageView', payload);
+            console.log('AdRoll track event: homeView', payload);
+            adroll.track('homeView');
+            break;
+        case 'search_page':
+            var payload = getSearchPagePayload();
+            console.log('AdRoll track event: pageView', payload);
+            adroll.track('pageView', payload);
+
+            console.log('AdRoll track event: productSearch', payload);
+            adroll.track('productSearch', payload);
+            break;
+        case 'product_page':
+            var payload = getProductPagePayload();
+            console.log('AdRoll track event: productView', payload);
+            adroll.track('productView', payload);
+
+            payload = addSegmentNameToPayload(payload, 'prestashop_viewed_product');
+            console.log('AdRoll track event: pageView', payload);
+            adroll.track('pageView', payload);
+            break;
+        case 'cart_page':
+            var payload = getCartPagePayload();
+            console.log('AdRoll track event: cartView', payload);
+            adroll.track('cartView', payload);
+
+            payload = addSegmentNameToPayload(payload, 'prestashop_viewed_cart');
+            console.log('AdRoll track event: pageView', payload);
+            adroll.track('pageView', payload);
+            break;
+        case 'checkout_page':
+            var payload = getCheckoutPagePayload();
+            console.log('AdRoll track event: checkoutStart', payload);
+            adroll.track('checkoutStart', payload);
+
+            payload = addSegmentNameToPayload(payload, 'prestashop_viewed_checkout');
+            console.log('AdRoll track event: pageView', payload);
+            adroll.track('pageView', payload);
+            break;
+        case 'conversion_page':
+            var payload = getConversionPagePayload();
+            console.log('AdRoll track event: purchase', payload);
+            adroll.track('purchase', payload);
+
+            payload = addSegmentNameToPayload(payload, 'prestashop_order_received');
+            console.log('AdRoll track event: pageView', payload);
+            adroll.track('pageView', payload);
+            break;
+        default:
+            console.log('AdRoll track event: pageView');
+            adroll.track('pageView');
+    }
+
+    setUpAjaxListenerAddToCartEvent();
+}
+
+else {
+
+    if (__adroll.extract_pid.toString().indexOf('window.adroll_dco_prestashop_loaded') == -1) {
+        __adroll.extract_pid = function(opts, serviceName, logPidCallback) {
+            var logProduct = function(productId, productAction) {
+                productAction = productAction || null;
+                logPidCallback({
+                    "product_id": productId,
+                    "product_group": window.adroll_product_group,
+                    "product_action": productAction
+                });
+            }.bind(this);
+
+            var logProductPage = function() {
+                if (window.hasOwnProperty('adroll_product_id')) {
+                    var productId = window.adroll_product_id;
+                    if (!!productId) {
+                        logProduct(productId);
+                    } else if (this.facebook_dummy_product_enabled() && serviceName === "facebook") {
+                        logPidCallback({"product_id": "adroll_dummy_product"});
+                    }
+                }
+            }.bind(this)
+
+            var logCartProduct = function(productId) {
+                logProduct(productId, 'AddToCart');
+            }.bind(this);
+
+            var watchPrestashop17Cart = function() {
+                var element = document.querySelector('#add-to-cart-or-refresh .add-to-cart');
+                if (element) {
+                    element.addEventListener('click', function() {
+                        logCartProduct(this.form.elements['id_product'].value);
+                    });
+                }
+            }.bind(this);
+
+            var watchCart = function() {
+                // Watch Add to cart button user interaction
+                var elements, element, i;
+
+                // PrestaShop 1.5 product page
+                element = document.querySelector('#add_to_cart input');
+                if (element) {
+                    element.addEventListener('click', function (event) {
+                        logCartProduct(this.form.elements['id_product'].value);
+                    });
+                }
+
+                // PrestaShop 1.6 homepage
+                elements = document.querySelectorAll('.ajax_add_to_cart_button');
+                for (i = 0; i < elements.length; i++) {
+                    elements[i].addEventListener('click', function (event) {
+                        logCartProduct(this.getAttribute('data-id-product'));
+                    });
+                }
+
+                // PrestaShop 1.6 product page
+                element = document.querySelector('#add_to_cart button');
+                if (element) {
+                    element.addEventListener('click', function (event) {
+                        logCartProduct(this.form.elements['id_product'].value);
+                    });
+                }
+
+                // PrestaShop 1.7
+                elements = document.querySelectorAll('.quick-view');
+                for (i = 0; i < elements.length; i++) {
+                    elements[i].addEventListener('click', function() {
+                        setTimeout(watchPrestashop17Cart, 1000);
+                    });
+                }
+                watchPrestashop17Cart();
+            }.bind(this);
+
+            var logCheckout = function() {
+                // Notify purchased products
+                if (window.hasOwnProperty('adroll_checkout_product_ids')) {
+                    window.adroll_checkout_product_ids.forEach(function(productId) {
+                        logProduct(productId, 'Purchase');
+                    });
+                }
+            }.bind(this);
+
+            if (!window.adroll_dco_prestashop_loaded) {
+                window.adroll_dco_prestashop_loaded = {};
+            }
+
+            if (!window.adroll_product_group) {
+                window.adroll_product_group = null;
+            }
+
+            if (!window.adroll_dco_prestashop_loaded[serviceName]) {
+                window.adroll_dco_prestashop_loaded[serviceName] = true;
+                logProductPage();
+                watchCart();
+                logCheckout();
+            }
+        }
+    }
+}
+
+      } catch(e) {}
+      try {
+          if (__adroll.consent_allowed(__adroll.consent_networks.facebook)) {
+    if(typeof __adroll.fb === 'undefined'){
+    fbq('init', '932925840069341');
+    fbq('set', 'autoConfig', 'false', '932925840069341');
+    __adroll.fb=true;
+
+    var __fbcd = {segment_eid: "7FWCB3AY4RFAHKI3MGLTTC,WWCEWMTIWBFW5ERZKJFG4J"};
+    for (var prop in __adroll.get_external_data()){
+        __fbcd['ar_' + prop] = __adroll.get_external_data()[prop];
+    }
+
+    fbq('track', "PageView", __fbcd);
+    } else {
+    var __fbcd = {event: "EventSegment", segment_eid: "7FWCB3AY4RFAHKI3MGLTTC,WWCEWMTIWBFW5ERZKJFG4J"};
+    for (var prop in __adroll.get_external_data()){
+        __fbcd['ar_' + prop] = __adroll.get_external_data()[prop];
+    }
+
+    fbq('track', "CustomEvent", __fbcd);
+    }
+}
+
+      } catch(e) {}
+  } catch(e) {}
+
+
+  var r = Math.random()*10000000000000000;
+  content = content.replace(/\[ord\]/gi, r);
+  content = content.replace(/\[protocol\]/gi, scheme);
+  content = content.replace(/\[adnxs_domain\]/gi, adnxs_domain);
+  content = content.replace(/\[aol_domain\]/gi, aol_domain);
+  var adroll_tpc = __adroll._global('adroll_tpc');
+  if (adroll_tpc) {
+    var srv_parts = __adroll._srv().split('?');
+    var srv_host = srv_parts[0].substr(srv_parts[0].indexOf(':') + 1);
+    var srv_re = new RegExp(srv_host + '([^\?\"\'\>\#\S]+)\\?*', 'gi');
+    content = content.replace(srv_re, srv_host + '$1?' + srv_parts[1] + '&');
+  }
+  content = __adroll.replace_external_data(content);
+  el.innerHTML = content;
+  __adroll._head().appendChild(el);
+  if (typeof __adroll.set_pixel_cookie != 'undefined') {__adroll.set_pixel_cookie(adroll_adv_id, adroll_pix_id, "WWCEWMTIWBFW5ERZKJFG4J");}
+}());

@@ -19,9 +19,6 @@
     a{
         margin-top: -10px;
     }
-    .hero-image{
-        background-color:rgb(57, 224, 127);
-    }
 }
 .search{
     color: #2ED573;
@@ -29,10 +26,7 @@
 header{
     color: #2ED573;
 }
-.team{
-    background-color: rgba(57, 224, 127, 0.3);
 
-}
 footer{
     background-color: #2ED573;
 }
